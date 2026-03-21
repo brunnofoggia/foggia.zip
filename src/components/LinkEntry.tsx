@@ -35,11 +35,18 @@ const iconMap: Record<string, LucideIcon> = {
     document: FileText,
 };
 
-const statusStyles: Record<Link['status'], string> = {
+const statusLabelStyles: Record<Link['status'], string> = {
     active: 'text-emerald-600 bg-emerald-50',
     wip: 'text-amber-600 bg-amber-50',
     archived: 'text-muted-foreground bg-muted',
     notready: 'text-red-600 bg-red-50',
+};
+
+const statusBulletStyles: Record<Link['status'], string> = {
+    active: 'bg-emerald-600',
+    wip: 'bg-amber-500',
+    archived: 'bg-muted-foreground',
+    notready: 'bg-red-500',
 };
 
 const statusLabelsTexts = [
@@ -103,9 +110,17 @@ export const LinkEntry = ({
 
             <div className="hidden sm:flex items-center gap-3 shrink-0 font-mono text-xs text-muted-foreground">
                 {showCategory && <span>{linkText.category}</span>}
-                <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${statusStyles[link.status]}`}>
-                    {statusLabelText[link.status]}
-                </span>
+
+                <span
+                    className={`inline-block w-2 h-2 rounded-full mr-2 ${statusBulletStyles[link.status]}`}
+                    aria-label={statusLabelText[link.status]}
+                    title={statusLabelText[link.status]}
+                />
+                {/* <span
+                    className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${statusLabelStyles[link.status]}`}
+                    title={statusLabelText[link.status]}
+                ></span> */}
+
                 {showVersion && <span className="w-12 text-center">{link.size}</span>}
             </div>
         </a>
