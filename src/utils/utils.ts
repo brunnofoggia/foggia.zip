@@ -10,7 +10,10 @@ export function defineBaseUrl(mode: string = null): string {
         mode = import.meta.env.MODE;
     }
 
-    return mode === 'production' ? '/foggia.zip/' : '/';
+    // For github domain with subfolder
+    // return mode === 'production' ? '/foggia.zip/' : '/';
+    // For custom domain or localhost
+    return mode === 'production' ? '/' : '/';
 }
 
 export function defineUrl(path: string, baseUrl: string = null, skipLang: boolean = false): string {
