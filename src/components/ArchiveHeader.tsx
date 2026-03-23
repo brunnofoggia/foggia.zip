@@ -5,10 +5,6 @@ import { Flag } from './LangFlag';
 import { Lang, LangMap } from '@/data/langs';
 import { getLang, setLang } from '@/utils/lang';
 
-interface ArchiveHeaderProps {
-    totalProjects: number;
-}
-
 function clickSetLang(event: React.MouseEvent<HTMLAnchorElement>, lang: string) {
     event.preventDefault();
     setLang(lang);
@@ -30,7 +26,7 @@ function renderFlags(langs: Lang[], selectedLang: string) {
     return map;
 }
 
-export const ArchiveHeader = ({ totalProjects }: ArchiveHeaderProps) => {
+export const ArchiveHeader = () => {
     return (
         <header className="border-b pb-8 mb-8">
             <div className="flex items-center gap-3 mb-4">
@@ -38,7 +34,7 @@ export const ArchiveHeader = ({ totalProjects }: ArchiveHeaderProps) => {
                 <a className="font-mono text-sm text-muted-foreground" href={defineBaseUrl()}>
                     /
                 </a>
-                <div className="ml-auto">{renderFlags(LangMap, getLang())}</div>
+                <div className="ml-auto flex flex-row items-center gap-1">{renderFlags(LangMap, getLang())}</div>
             </div>
             <h1 className="font-display text-4xl md:text-5xl font-bold tracking-tight mb-3">
                 <a href={defineBaseUrl()}>foggia.zip</a>

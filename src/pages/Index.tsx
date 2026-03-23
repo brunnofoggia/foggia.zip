@@ -10,7 +10,7 @@ export const Index = () => {
     return (
         <div className="min-h-screen flex flex-col">
             <main className="flex-1 w-full max-w-2xl mx-auto px-6 py-16 md:py-24">
-                <ArchiveHeader totalProjects={links.length} />
+                <ArchiveHeader />
 
                 <section>
                     <h2 className="font-mono text-xs text-muted-foreground uppercase tracking-widest mb-4">Links</h2>
