@@ -25,6 +25,10 @@ async function fetchMarkdown(slug: string, lang: string): Promise<string | null>
         const res = await fetch(url);
         if (!res.ok) return null;
         let text = await res.text();
+
+        // to skip 404.html response
+        if (text.includes('<html')) return null;
+
         text = text.replace(/\.\/img/g, `${additionalFolder}/img`);
         return text;
     }
