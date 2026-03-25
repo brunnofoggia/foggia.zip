@@ -68,7 +68,7 @@ Of course the problem is beyond reinventing the wheel in this case, but with a b
 
 ## Conclusion
 
-As a complement this topic I will mention an article that shows how DRY pattern can turn into an antipattern if you choose always perfection: [Please do repeat yourself](/articles/ref-pdry) but I will also mention another one that talks about what you shouldn't do at all: [Design Principles: KISS, YAGNI, DRY](/articles/ref-kiss-yagni-dry).
+As a complement I will mention an article that shows how DRY pattern can turn into an antipattern if you choose always perfection: [Please do repeat yourself](/articles/ref-pdry) but I will strongly recommend another one that talks about what you shouldn't do at all: [Design Principles: KISS, YAGNI, DRY](/articles/ref-kiss-yagni-dry).
 
 Question is: you will need to find the right balance when writing your code, sometimes you will need to reinvent the wheel, or extend an existing library, but you should always ask yourself if it's really necessary before doing it.
 
