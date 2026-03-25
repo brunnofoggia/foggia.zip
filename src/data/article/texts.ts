@@ -11,7 +11,7 @@ export const texts = [
         lang: 'br',
         published: 'Publicado',
         status: 'Status',
-        statusValue: 'Em Progresso',
+        statusValue: 'Em Andamento',
         type: 'Tipo',
         typeValue: 'Artigo',
     },

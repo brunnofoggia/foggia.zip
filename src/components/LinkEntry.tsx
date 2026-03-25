@@ -80,7 +80,7 @@ const statusLabelsTexts = [
     {
         lang: 'br',
         active: 'Ativo',
-        wip: 'Em Progresso',
+        wip: 'Em revisão',
         notready: 'Em Breve',
         archived: 'Arquivado',
     },
@@ -117,7 +117,8 @@ export const LinkEntry = ({
     }
 
     const isDisabled = link.status === LinkStatusEnum.NotReady || !_isPublished || link.url === '-';
-    const className = "group flex items-center gap-4 px-4 py-3 -mx-4 rounded-md transition-colors duration-75 hover:bg-secondary border-b last:border-b-0";
+    const className =
+        'group flex items-center gap-4 px-4 py-3 -mx-4 rounded-md transition-colors duration-75 hover:bg-secondary border-b last:border-b-0';
 
     const children = (
         <>

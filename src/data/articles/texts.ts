@@ -20,7 +20,7 @@ export const texts = [
         category: 'Dev',
         items: 'Itens',
         status: 'Status',
-        statusValue: 'Em Progresso',
+        statusValue: 'Em Construção',
         type: 'Tipo',
         typeValue: 'Diretório',
         referenceTitle: 'Referências Externas',
