@@ -9,6 +9,9 @@ export const texts = [
         statusValue: 'In Progress',
         type: 'Type',
         typeValue: 'Directory',
+        referenceTitle: 'External References',
+        wipDescription: 'This article is being reviewed',
+        notReadyDescription: 'This article is still being written',
     },
     {
         lang: 'br',
@@ -20,5 +23,8 @@ export const texts = [
         statusValue: 'Em Progresso',
         type: 'Tipo',
         typeValue: 'Diretório',
+        referenceTitle: 'Referências Externas',
+        wipDescription: 'Este artigo está em revisão',
+        notReadyDescription: 'Este artigo está em processo de escrita',
     },
 ];

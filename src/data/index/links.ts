@@ -1,4 +1,4 @@
-import { type Link } from '@/components/LinkEntry';
+import { LinkStatusEnum, type Link } from '@/components/LinkEntry';
 import { Articles } from '@/pages/Articles';
 import { defineUrl } from '@/utils/utils';
 import { texts as ArticleTexts } from '../articles/texts';
@@ -9,7 +9,7 @@ export const links: Link[] = [
         name: 'articles',
         url: defineUrl('/articles'),
         element: Articles,
-        status: 'notready',
+        status: LinkStatusEnum.Active,
         size: '2+',
         icon: 'folder',
         texts: ArticleTexts,
@@ -17,7 +17,7 @@ export const links: Link[] = [
     {
         name: 'blog',
         url: defineUrl('/blog'),
-        status: 'notready',
+        status: LinkStatusEnum.NotReady,
         size: '0',
         icon: 'folder',
         texts: BlogTexts,
@@ -25,7 +25,7 @@ export const links: Link[] = [
     {
         name: 'instagram',
         url: 'https://www.instagram.com/brunnofoggia',
-        status: 'active',
+        status: LinkStatusEnum.Active,
         size: '-',
         icon: 'instagram',
         external: true,
@@ -47,7 +47,7 @@ export const links: Link[] = [
     {
         name: 'linkedin',
         url: 'https://www.linkedin.com/in/brunnofoggia',
-        status: 'active',
+        status: LinkStatusEnum.Active,
         size: '-',
         icon: 'linkedin',
         external: true,
@@ -69,7 +69,7 @@ export const links: Link[] = [
     {
         name: 'github',
         url: 'https://github.com/brunnofoggia',
-        status: 'active',
+        status: LinkStatusEnum.Active,
         size: '-',
         icon: 'github',
         external: true,

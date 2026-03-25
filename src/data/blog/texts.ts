@@ -2,13 +2,13 @@ export const texts = [
     {
         lang: 'en',
         title: 'Blog',
-        description: 'The Overthinking Cycle: A Never-Ending Loop',
+        description: 'The Search for Perfection: An Endless Story',
         category: 'Social',
     },
     {
         lang: 'br',
         title: 'Blog',
-        description: 'O Ciclo do Overthinking: Um Loop Sem Fim',
+        description: 'Em busca da perfeição: uma história sem fim',
         category: 'Social',
     },
 ];

@@ -3,6 +3,8 @@ import { LangMap } from '@/data/langs';
 
 let lang: string = '';
 
+export const fallbackLang = 'en';
+
 function userLang(): string {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const _navigator: any = navigator || (window as any).navigator;
@@ -11,7 +13,7 @@ function userLang(): string {
     if (_lang.startsWith('pt')) {
         return 'br';
     }
-    return 'en';
+    return fallbackLang;
 }
 
 export function getLang(): string {
@@ -51,7 +53,7 @@ export function getText(texts, forceLang?: string) {
     const lang = forceLang || getLang();
     const text = texts.find((t) => t.lang === lang);
     if (!text) {
-        return getText(texts, 'en'); // fallback to default language
+        return getText(texts, fallbackLang); // fallback to default language
     }
     return text;
 }

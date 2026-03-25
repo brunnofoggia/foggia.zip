@@ -21,8 +21,13 @@ export function defineUrl(path: string, baseUrl: string = null, skipLang: boolea
 
     baseUrl = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
     path = path.startsWith('/') ? path.slice(1) : path;
-    path = path.endsWith('/') ? path : `${path}/`;
+    path = path.endsWith('/') ? path.replace(/\/$/, '') : path;
 
     const url = `${baseUrl}${path}`;
     return url;
+}
+
+export function definePath(path: string, baseUrl: string = null, skipLang: boolean = false): string {
+    const url = defineUrl(path, baseUrl, skipLang);
+    return url + '/';
 }

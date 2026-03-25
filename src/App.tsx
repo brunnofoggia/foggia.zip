@@ -12,6 +12,7 @@ import { Article } from './pages/Article.tsx';
 
 import { internalLinks as InternalIndexLinks } from './data/index/links.ts';
 import { links as ArticlesLinks } from './data/articles/links.ts';
+import { links as RefArticlesLinks } from './data/articles/references/links.ts';
 
 const queryClient = new QueryClient();
 
@@ -25,13 +26,19 @@ const App = () => (
             <BrowserRouter basename={basename}>
                 <Routes>
                     <Route path="/" element={<Index />} />
-                    {InternalIndexLinks.filter((link) => link.status !== 'notready').map((link) => {
-                        const Element = link.element;
-                        return <Route key={link.name} path={link.url} element={<Element link={link} />} />;
-                    })}
-                    {ArticlesLinks.filter((link) => link.status !== 'notready').map((link) => {
-                        return <Route key={link.name} path={link.route} element={<Article slug={link.slug} />} />;
-                    })}
+                    {[InternalIndexLinks]
+                        .flat()
+                        .filter((link) => link.status !== 'notready')
+                        .map((link) => {
+                            const Element = link.element;
+                            return <Route key={link.name} path={link.url} element={<Element link={link} />} />;
+                        })}
+                    {[ArticlesLinks, RefArticlesLinks]
+                        .flat()
+                        .filter((link) => link.status !== 'notready')
+                        .map((link) => {
+                            return <Route key={link.name} path={link.url} element={<Article slug={link.slug} />} />;
+                        })}
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </BrowserRouter>
