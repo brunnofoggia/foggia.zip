@@ -18,7 +18,7 @@ import { NotFound } from './NotFound';
 
 async function fetchMarkdown(slug: string, lang: string): Promise<string | null> {
     const base = defineBaseUrl();
-    const additionalFolder = `${base}a-content/article/${slug}`;
+    const additionalFolder = `${base}assets/article/${slug}`;
 
     async function fetchMarkdown(_lang: string): Promise<string | null> {
         const url = `${base}content/article/${slug}/${_lang}.md`;
