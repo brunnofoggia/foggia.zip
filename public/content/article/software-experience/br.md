@@ -2,8 +2,8 @@
 
 Escrito por Bruno Foggia, 2026.
 
-Estrutura de diretórios, configurações de editor, padronização de código, facilidade de execução local — nada disso é mero detalhe. É fundação.
-Se a experiência de quem chega no repositório é ruim, o problema não é a pessoa — é o repositório.
+Quase sempre são chamados de perfumaria: Estrutura de diretórios, configurações de editor, padronização de código, facilidade de execução local. Mas nada disso é mero detalhe, é fundação.
+Se a experiência de quem chega no repositório é ruim, o problema não é a pessoa é o repositório.
 
 ---
 
@@ -11,13 +11,13 @@ Se a experiência de quem chega no repositório é ruim, o problema não é a pe
 
 A idéia aqui é resumir todo o conteúdo em um checklist prático.
 
-1. [ ] Versione (git, mercurial, etc.) e respeite o versionamento: sem pacotes zip de alterações enviados por e-mail.
+1. [ ] Versione (git, mercurial, etc.) e respeite o versionamento: sem pacotes zip de alterações enviados por e-mail. Crie branches para organizar a entrega de alterações.
 2. [ ] Estrutura de diretórios clara e previsível. Código-fonte em `src/`, infraestrutura em `infra/`, docs em `docs/`, arquivos públicos em `public/`, etc.
 3. [ ] Configurações de editor commitadas (`.editorconfig`, `.vscode/`, etc.)
-4. [ ] Formatador automático integrado ao editor e CI
-5. [ ] Linter com regras versionadas e pre-commit hooks
-6. [ ] Execução da aplicação em ambiente local é requisito inegociável
-7. [ ] Pré-requisitos para o ambiente local. Limitados a runtime e ferramentas essenciais da linguagem e Docker
+4. [ ] Formatação automática integrada ao editor através de plugins e componentes.
+5. [ ] Linting com regras versionadas integrado no editor e a pre-commit hooks para evitar problemas comuns.
+6. [ ] Execução da aplicação em ambiente local é requisito inegociável.
+7. [ ] Pré-requisitos para o ambiente local. Limitados a runtime e ferramentas essenciais da linguagem e Docker.
 8. [ ] Repositório documentado e intuitivo. README funcional como porta de entrada é necessidade. `.env.example` com todas as variáveis necessárias.
 9. [ ] Use e abuse da dockerização. Dockerize a execução da aplicação, mas também as dependências remotas: banco de dados, mensageria, cache, etc.
 10. [ ] Comandos comuns do projeto declarados em local oficial (`pyproject.toml`, `package.json`, `Makefile`)
@@ -30,9 +30,9 @@ A idéia aqui é resumir todo o conteúdo em um checklist prático.
 
 > **Sem isso:** arquivos zipados com "alterações", e-mails com "segue o código atualizado". O histórico é perdido, conflitos de evolutivas são frequentes. A colaboração é inviável.
 
-Versionamento é a base de qualquer projeto de software. Ele não é opcional, e não é apenas para código — toda a configuração, documentação e infraestrutura devem estar versionados.
+Versionamento é a base de qualquer projeto de software. Ele não é opcional, e não é apenas para código. Isso inclui instruções de configuração, documentação, infraestrutura, etc.
 
-Versionar é a única maneira de tornar possível reverter mudanças problemáticas,  e evoluir de forma progressiva sem contínuos retrocessos. Sem versionamento, cada alteração é um risco, cada membro do time segue seu próprio caminho, não existe colaboração eficiente sem seguir padrões e processos.
+Versionar é a única maneira de tornar possível reverter mudanças problemáticas e evoluir de forma progressiva sem contínuos retrocessos. Sem versionamento, cada alteração é um risco, cada membro do time segue seu próprio caminho, não existe colaboração eficiente sem seguir padrões e processos.
 
 - **Ignorar alguns arquivos e diretórios** é primordial para evitar poluir o repositório com dados sensíveis, arquivos binários, etc. Utilize `.gitignore`, `.hgignore` ou equivalente.
 
@@ -52,9 +52,11 @@ Crie uma estrutura de diretórios clara e consistente desde o início. Convenç�
 
 ## 3. Configuração do editor como parte do repositório
 
-> **Sem isso:** diferenças de indentação, charset e line endings geram diffs fantasma, PRs poluídos e conflitos desnecessários.
+> **Sem isso:** diferenças de indentação, charset e line endings geram diffs fantasmas, PRs poluídas e conflitos desnecessários.
 
-Configurações de editor são parte do projeto e devem ser commitadas. Não são preferências pessoais — são contrato do time.
+Configurações de editor são parte do projeto e devem ser commitadas. Não são preferências pessoais, são contrato do time.
+
+> Salvo exceções. Por exemplo: algumas pessoas podem preferir grandes espaçamentos entre linhas de código e para isso existe uma configuração no editor chamada "line-height". Ela deve ser aplicada e configurada invés de optar por adicionar uma linha em branco a cada linha de código.
 
 - **`.editorconfig`** — consistência cross-editor:
 
@@ -73,15 +75,15 @@ insert_final_newline = true
 trim_trailing_whitespace = false
 ```
 
-> Observação: criar o `.editorconfig` não garante a formatação automática dos arquivos ao salvar. Isso será explicado nos itens seguintes.
+* Observação: criar o `.editorconfig` não garante a formatação automática dos arquivos ao salvar. Isso será explicado nos itens seguintes.
 
 ---
 
 ## 4. Formatação automática de código
 
-> **Sem isso:** code reviews travados discutindo estilo. Código visualmente inconsistente que dificulta leitura.
+> **Sem isso:** code reviews travados discutindo despadronização, desalinhamento, bagunça. Código visualmente inconsistente que dificulta leitura. A formatação automática garante padronização igual a todos.
 
-A formatação deve rodar ao salvar o arquivo no editor. Para isso, o editor precisa possuir suporte nativo ou via extensão, e a configuração deve estar presente no repositório para garantir que todo código entregue seja formatado automaticamente seguindo os padrões definidos.
+A formatação deve rodar ao salvar o arquivo no editor. Para que isso aconteça o editor precisa possuir suporte nativo ou via instalação de uma extensão, e a configuração da extensão deve estar presente no repositório para garantir que a extensão aplique as mesmas regras de padronização a todos.
 
 **VS Code** — tem nativa a funcionalidade de formatar ao salvar. Para ativá-la inclua no repositório o arquivo:
 
@@ -99,7 +101,7 @@ Dentro deste arquivo, certifique-se de ativar a opção `editor.formatOnSave` pa
 
 ### Formatação avançada: formatadores específicos para uma linguagem
 
-Utilizar um formatador específico para uma linguagem adiciona uma camada extra de configurações de estilo mais avançadas e específicas, alem de fornecer um CLI para integração com pre-coommit hooks e CI.
+Utilizar um formatador específico para uma linguagem adiciona uma camada extra de configurações de estilo mais avançadas e específicas, além de fornecer um CLI para integração com pre-coommit hooks e CI.
 
 Ao escolhar um formatador, é necessário configurar as regras de formatação do editor para usar o formatador escolhido. Por exemplo, para Python usando o Black, a configuração do editor deve apontar para o Black como formatador padrão para arquivos Python.
 
@@ -128,7 +130,7 @@ Ao escolhar um formatador, é necessário configurar as regras de formatação d
 }
 ```
 
-Caso precise configurar para formatar apenas arquivos específicos, adicione as seções correspondentes para cada tipo de arquivo:
+Caso precise configurar para formatar arquivos específicos, adicione as seções correspondentes para cada tipo de arquivo:
 
 ```json
 {
@@ -153,6 +155,8 @@ Caso precise configurar para formatar apenas arquivos específicos, adicione as 
 
 #### Configurações de formatação específicas para o formatador escolhido 
 
+Abaixo estão exemplos de como configurar algumas extensões para Python e Node.
+
 **Python** — [Black](https://black.readthedocs.io/):
 
 ```toml
@@ -170,7 +174,7 @@ target-version = ["py313"]
     "semi": true,
     "singleQuote": true,
     "trailingComma": "all",
-    "printWidth": 120
+    "printWidth": 100
 }
 ```
 ---
