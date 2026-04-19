@@ -1,4 +1,4 @@
-# Software Experience: fundação a prova de balas
+# Software Experience: fundação à prova de balas
 
 Escrito por Bruno Foggia, 2026.
 
@@ -9,38 +9,38 @@ Se a experiência de quem chega no repositório é ruim, o problema não é a pe
 
 ## 0. Checklist definitivo
 
-A idéia aqui é resumir todo o conteúdo em um checklist prático.
+A ideia aqui é resumir todo o conteúdo em um checklist prático.
 
-1. [ ] Versione (git, mercurial, etc.) e respeite o versionamento: sem pacotes zip de alterações enviados por e-mail. Crie branches para organizar a entrega de alterações.
+1. [ ] Versione (git, mercurial, etc.) e respeite o versionamento: sem pacotes zip de alterações enviados por e-mail. Não se esqueça de versionar também as dependências (arquivos "lock", como `poetry.lock`, `package-lock.json`, etc.). Crie branches para organizar a entrega de alterações.
 2. [ ] Estrutura de diretórios clara e previsível. Código-fonte em `src/`, infraestrutura em `infra/`, docs em `docs/`, arquivos públicos em `public/`, etc.
 3. [ ] Configurações de editor commitadas (`.editorconfig`, `.vscode/`, etc.)
-4. [ ] Formatação automática integrada ao editor através de plugins e componentes.
+4. [ ] 4. [ ] Formatação automática integrada ao editor através de plugins e componentes (Black para Python, Prettier para Node/TypeScript, etc.)
 5. [ ] Linting com regras versionadas integrado no editor e a pre-commit hooks para evitar problemas comuns.
-6. [ ] Execução da aplicação em ambiente local é requisito inegociável.
+6. [ ] Execução da aplicação em ambiente local é requisito inegociável (use Docker sempre que possível, pois garante a compatibilidade e execução rápida em qualquer máquina).
 7. [ ] Pré-requisitos para o ambiente local. Limitados a runtime e ferramentas essenciais da linguagem e Docker.
 8. [ ] Repositório documentado e intuitivo. README funcional como porta de entrada é necessidade. `.env.example` com todas as variáveis necessárias.
 9. [ ] Use e abuse da dockerização. Dockerize a execução da aplicação, mas também as dependências remotas: banco de dados, mensageria, cache, etc.
 10. [ ] Comandos comuns do projeto declarados em local oficial (`pyproject.toml`, `package.json`, `Makefile`)
 11. [ ] Conventional Commits com validação automática
-12. [ ] CI ativo desde o primeiro commit (lint, format, types, testes, build)
+12. [ ] Padronização de entregas desde o dia zero através do uso de plugins, pre-commit hooks e CI para aplicação de boas práticas (lint, format, types, testes, build)
 13. [ ] Faça o que tem que ser feito. Fazer entregas ruins e culpar a pressa alheia não vai te salvar da condenação quando tudo desabar.
-
 
 ## 1. Versionamento
 
-> **Sem isso:** arquivos zipados com "alterações", e-mails com "segue o código atualizado". O histórico é perdido, conflitos de evolutivas são frequentes. A colaboração é inviável.
+> **Problema:** arquivos zipados com "alterações", e-mails com "segue o código atualizado". O histórico é perdido, conflitos de evolutivas são frequentes. A colaboração é inviável.
 
 Versionamento é a base de qualquer projeto de software. Ele não é opcional, e não é apenas para código. Isso inclui instruções de configuração, documentação, infraestrutura, etc.
 
-Versionar é a única maneira de tornar possível reverter mudanças problemáticas e evoluir de forma progressiva sem contínuos retrocessos. Sem versionamento, cada alteração é um risco, cada membro do time segue seu próprio caminho, não existe colaboração eficiente sem seguir padrões e processos.
+Versionar é a única maneira de tornar possível reverter mudanças problemáticas e evoluir de forma progressiva sem repetitivos retrocessos. Sem versionamento, cada alteração é um risco, cada membro do time segue seu próprio caminho, não existe colaboração eficiente sem seguir padrões e processos.
 
-- **Ignorar alguns arquivos e diretórios** é primordial para evitar poluir o repositório com dados sensíveis, arquivos binários, etc. Utilize `.gitignore`, `.hgignore` ou equivalente.
+- **Ignorar arquivos e diretórios** é primordial para evitar poluir o repositório com arquivos que contenham dados sensíveis, sejam do tipo binário, pastas temporárias ou de metadados, etc. Utilize `.gitignore`, `.hgignore` ou equivalente.
+- **Versionar dependências** é essencial para garantir que o ambiente de desenvolvimento e produção seja consistente. Arquivos "lock" (`poetry.lock`, `package-lock.json`, etc.) são gerados ao instalar as dependências e devem ser commitados para garantir que todos os ambientes usem as mesmas versões das dependências, evitando bugs causados por diferenças de versão.
 
 ## 2. Estrutura de diretórios clara e previsível
 
-> **Sem isso:** código, infraestrutura, documentos, testes, etc. se misturam na raiz do projeto. Fica impossível entender onde colocar ou encontrar algo. O repositório se torna um caos.
+> **Problema:** código, infraestrutura, documentos, testes, etc. se misturam na raiz do projeto. Fica impossível entender onde colocar ou encontrar algo. O repositório se torna um caos.
 
-Crie uma estrutura de diretórios clara e consistente desde o início. Convenções comuns:
+É essencial ter uma estrutura de diretórios clara e consistente desde o início. Convenções comuns são:
 
 - `src/` para código-fonte
 - `infra/` para infraestrutura (Docker, Kubernetes, Terraform)
@@ -52,13 +52,14 @@ Crie uma estrutura de diretórios clara e consistente desde o início. Convenç�
 
 ## 3. Configuração do editor como parte do repositório
 
-> **Sem isso:** diferenças de indentação, charset e line endings geram diffs fantasmas, PRs poluídas e conflitos desnecessários.
+> **Problema:** diferenças de tipo ou tamanho de indentação, charset e line endings geram diffs fantasmas, PRs poluídas e conflitos desnecessários.
 
 Configurações de editor são parte do projeto e devem ser commitadas. Não são preferências pessoais, são contrato do time.
 
 > Salvo exceções. Por exemplo: algumas pessoas podem preferir grandes espaçamentos entre linhas de código e para isso existe uma configuração no editor chamada "line-height". Ela deve ser aplicada e configurada invés de optar por adicionar uma linha em branco a cada linha de código.
 
-- **`.editorconfig`** — consistência cross-editor:
+- **`.editorconfig`** — é um arquivo de configuração "cross-editor", pois a maioria dos editores tem suporte nativo ou via extensão para ler as regras definidas nesse arquivo, garantindo que as regras de formatação sejam aplicadas de forma consistente. Veja um exemplo:
+
 
 ```ini
 root = true
@@ -75,7 +76,7 @@ insert_final_newline = true
 trim_trailing_whitespace = false
 ```
 
-* Observação: criar o `.editorconfig` não garante a formatação automática dos arquivos ao salvar. Isso será explicado nos itens seguintes.
+> Observação: criar o `.editorconfig` não garante a formatação automática dos arquivos ao salvar. Isso será explicado a seguir.
 
 ---
 
@@ -89,7 +90,7 @@ A formatação deve rodar ao salvar o arquivo no editor. Para que isso aconteça
 
 - **`.vscode/settings.json`** — permite definir configurações específicas do editor para o projeto.
 
-Dentro deste arquivo, certifique-se de ativar a opção `editor.formatOnSave` para que o código seja formatado automaticamente sempre que um arquivo for salvo no projeto. 
+Dentro deste arquivo, certifique-se de ativar a opção `editor.formatOnSave` para que o código seja formatado automaticamente sempre que um arquivo for salvo no projeto.
 
 ```json
 {
@@ -101,9 +102,9 @@ Dentro deste arquivo, certifique-se de ativar a opção `editor.formatOnSave` pa
 
 ### Formatação avançada: formatadores específicos para uma linguagem
 
-Utilizar um formatador específico para uma linguagem adiciona uma camada extra de configurações de estilo mais avançadas e específicas, além de fornecer um CLI para integração com pre-coommit hooks e CI.
+Utilizar um formatador específico para uma linguagem adiciona uma camada extra de configurações de estilo mais avançadas e específicas, além de fornecer um CLI para integração com pre-commit hooks.
 
-Ao escolhar um formatador, é necessário configurar as regras de formatação do editor para usar o formatador escolhido. Por exemplo, para Python usando o Black, a configuração do editor deve apontar para o Black como formatador padrão para arquivos Python.
+Ao escolher um formatador, é necessário configurar as regras de formatação do editor para usar o formatador escolhido. Por exemplo, para Python usando o Black, a configuração do editor deve apontar para o Black como formatador padrão para arquivos Python.
 
 #### Configurando o editor para usar o formatador escolhido
 
@@ -114,7 +115,6 @@ Ao escolhar um formatador, é necessário configurar as regras de formatação d
     "editor.formatOnSave": true,
     // Objetivamente: Defina o Black como formatador padrão para arquivos Python
     "[python]": {
-        
         "editor.defaultFormatter": "ms-python.black-formatter"
     }
 }
@@ -152,8 +152,7 @@ Caso precise configurar para formatar arquivos específicos, adicione as seçõe
 }
 ```
 
-
-#### Configurações de formatação específicas para o formatador escolhido 
+#### Configurações de formatação específicas para o formatador escolhido
 
 Abaixo estão exemplos de como configurar algumas extensões para Python e Node.
 
@@ -177,13 +176,14 @@ target-version = ["py313"]
     "printWidth": 100
 }
 ```
+
 ---
 
 ## 5. Linting como guarda de qualidade
 
-> **Sem isso:** imports não usados, variáveis mortas, padrões problemáticos se acumulam silenciosamente até doer em produção.
+> **Problema:** imports não usados, variáveis mortas, padrões problemáticos se acumulam silenciosamente até doer em produção.
 
-Linting é diferente de formatação. Formatação cuida da aparência; linting cuida da substância — erros lógicos, código morto, violações código esperado e ate de boas práticas.
+Linting é diferente de formatação. Formatação cuida da aparência; linting cuida da substância — erros lógicos, código morto, código quebrado, e também aplicação de boas práticas.
 
 **Python** — [Ruff](https://docs.astral.sh/ruff/):
 
@@ -215,27 +215,27 @@ Combine com **pre-commit hooks** (`pre-commit` em Python, `husky` + `lint-staged
 
 ## 6. Execução da aplicação em ambiente local é requisito inegociável
 
-> **Sem isso:** o ciclo de feedback sai de segundos para minutos ou horas. Devs escrevem código sem nunca ver a aplicação rodar.
+> **Problema:** o ciclo de feedback sai de segundos para minutos ou horas. Devs escrevem código sem nunca ver a aplicação rodar.
 
-O software **deve** rodar na máquina de quem desenvolve. Dependências externas (banco, fila, cache) ficam disponíveis via containers. Integrações com APIs de terceiros devem ter mocks ou sandboxes documentados.
+O software **deve** rodar na máquina de quem desenvolve, seja via Docker ou diretamente no ambiente local. Dependências externas (banco, fila, cache) devem ser disponibilizadas via Docker. Integrações com APIs de terceiros devem ter mocks ou sandboxes disponíveis e documentados.
 
-Meta: `git clone` → poucos comandos → aplicação de pé.
+Meta: `git clone` → leitura do README → pouca interação → aplicação de pé.
 
 ---
 
 ## 7. Pré-requisitos mínimos para o ambiente local
 
-> **Sem isso:** README com dezenas de passos, múltiplos SDKs, configurações e scripts manuais para configuração da máquina local. Onboarding leva dias.
+> **Problema:** README com dezenas de passos, múltiplos SDKs, configurações e scripts manuais para configuração da máquina local. Onboarding leva dias.
 
-### Pré-requisitos limitados ao essencial: 
+### Pré-requisitos limitados ao essencial:
 
 > Quanto mais passos manuais entre o clone e a execução, mais frágil é a experiência.
 
 - **runtime da linguagem**: Python, Node, etc.
-- **ferramentas essenciais da linguagem**: 
+- **ferramentas essenciais da linguagem**:
     - Python: pip, pipx, pyenv, etc.
     - Nodejs: npm, nvm, etc.
-- **Docker**. 
+- **Docker**.
 
 ### Pré-requisitos opcionais, mas necessários para uma experiência fluida:
 
@@ -245,19 +245,19 @@ Meta: `git clone` → poucos comandos → aplicação de pé.
     - Python: `hatch` (comandos em `pyproject.toml`)
     - Node (nativo): `npm` (scripts em `package.json`), `npx` (execução de binários locais)
 
-> No python o componente `hatch`, diferente dos demais (`uv`, `pipx`, `pip`), é único capaz de ambas funções: acessar um mapeamento de comandos definido previamente (no `pyproject.toml`) e executar comandos binários locais do projeto.
+> No Python, o componente `hatch`, diferente dos demais (`uv`, `pipx`, `pip`), é único capaz de ambas funções: acessar um mapeamento de comandos definido previamente (no `pyproject.toml`) e executar comandos binários locais do projeto.
 
 ---
 
 ## 8. Repositório documentado e intuitivo
 
-> **Sem isso:** conhecimento mora na cabeça das pessoas. Cada dev recebe uma resposta diferente sobre como rodar o projeto.
+> **Problema:** conhecimento mora na cabeça das pessoas. Cada dev recebe uma resposta diferente sobre como rodar o projeto.
 
 O repositório deve falar por si só:
 
 - **README** — o que é, objetivos, composição, como executar, como contribuir. Se o membro do time leu e não consegue executar, o README falhou.
 - **Documentação** — pasta `docs/` com detalhes de arquitetura, negócio, decisões, padrões, etc.
-- **`.env.example`** — template versionado com todas as variáveis possíveis e valores ilustrativos.
+- **`.env.example`** — template versionado com todas as variáveis possíveis e valores ilustrativos. Não se esqueça de nunca deixar dados sensíveis expostos, como senhas ou chaves de API, no repositório. O exemplo deve conter apenas valores fictícios ou placeholders, e o README deve instruir os desenvolvedores a preencherem o arquivo `.env` com as informações corretas para o ambiente local.
 
 > O repositório é a única fonte de verdade. Se a informação não está nele, ela não existe oficialmente.
 
@@ -265,15 +265,17 @@ O repositório deve falar por si só:
 
 ## 9. Containerização do ambiente de desenvolvimento
 
-> **Sem isso:** "funciona na minha máquina" é desculpa para ambiente local não funcional, quebrado, dependências conflitantes, versões divergentes. Onboarding é um pesadelo.
+> **Problema:** "funciona na minha máquina" é desculpa para ambiente local não funcional, quebrado, dependências conflitantes, versões divergentes. Onboarding é um pesadelo.
 
-Dependências de infraestrutura devem ser dockerizadas e versionadas junto ao projeto.
+Dependências de infraestrutura devem ser dockerizadas e versionadas junto ao projeto. Isso inclui banco de dados, mensageria, cache, etc. O ideal é ter um `docker-compose.yml` ou equivalente para orquestrar esses serviços, garantindo que qualquer pessoa possa rodar o ambiente completo com um único comando (`docker compose up`).
+
+Em ambientes mais complexos, pode ser mais interessante disponibilizar scripts docker para rodar os serviços individualmente, ou usar ferramentas de orquestração mais avançadas como Kubernetes, mas o princípio é o mesmo: garantir que o ambiente de desenvolvimento seja facilmente replicável e consistente para todos os membros do time.
 
 ---
 
 ## 10. Comandos comuns como interface do projeto
 
-> **Sem isso:** comandos espalhados em wikis, Slack e memórias. Cada membro do time inventa seu jeito de rodar as coisas e detém conhecimento fragmentado pra si.
+> **Problema:** comandos espalhados em wikis, Slack e memórias. Cada membro do time inventa seu jeito de rodar as coisas e detém conhecimento fragmentado pra si.
 
 O projeto deve ter uma interface de comandos comuns declarada num lugar oficial.
 
@@ -317,7 +319,7 @@ check-all      = [
 
 `Makefile` também é opção válida e agnóstica de linguagem. Exemplo de `Makefile` para Node/TypeScript:
 
-```# Makefile
+```Makefile
 .PHONY: dev build lint format test
 dev:
 	nodemon --watch src --ext ts,json --exec ts-node src/main.ts
@@ -335,47 +337,49 @@ test:
 
 ## 11. Commits e histórico como documentação viva
 
-> **Sem isso:** `git log` cheio de "fix", "wip", "ajuste", commits gigantescos, branches que duram eras. Histórico ilegível, changelog inviável, merge impossível.
+> **Problema:** `git log` cheio de "fix", "wip", "ajuste", commits gigantescos, branches que duram eras. Histórico ilegível, changelog inviável, merge impossível.
 
 - Prefira commits pequenos, atômicos, com mensagens claras e descritivas. Evite commits gigantescos que misturam várias mudanças.
 - Use branches curtas e focadas em uma única tarefa ou feature. Evite branches longos que acumulam mudanças por semanas ou meses.
-- Adote o versionamento semântico. Ferramentas como **Commitizen** facilitam a criação de commits seguindo a convenção.
+- Adote o **Conventional Commits**, uma convenção para mensagens de commit que facilita a leitura do histórico e a geração de changelogs. Ferramentas como **Commitizen** facilitam a criação de commits seguindo a convenção.
+- Aplique pre-commit hooks para validar mensagens de commit, garantindo que sigam o padrão definido. Por exemplo, usando o **commitlint** para validar mensagens de commit seguindo o Conventional Commits.
 
 Exemplos de mensagens de commit seguindo o versionamento semântico:
 
 1. feat: adiciona endpoint de criação de usuário
-1. fix: corrige cálculo de frete para regiões Norte
-1. refactor: extrai lógica de validação para módulo dedicado
-1. build: atualiza dependências de desenvolvimento
-1. docs: adiciona seção de configuração no README
+2. fix: corrige cálculo de frete para regiões Norte
+3. refactor: extrai lógica de validação para módulo dedicado
+4. build: atualiza dependências de desenvolvimento
+5. docs: adiciona seção de configuração no README
 
 ---
 
 ## 12. Padronização de entregas desde o dia zero
 
-> **Sem isso:** CI "pra depois" nunca chega. Primeiro bug em produção que um lint pegaria custa muito mais que configurar o pipeline no início.
-
->>>> falar aqui sobre pre-commit hooks inves de CI. exatamente porque da pra obter uma experiência de qualidade localmente, sem depender de um pipeline externo, evitando um commit quebrado ou fora de padrão.
+> **Problema:** No meio da pressa o dia das boas práticas nunca chega. Organização, padronização e validação ficam pra depois até o primeiro bug em produção que teria sido evitado, e que pode custar **muito** mais caro que ajustar tudo desde o início.
 
 **Desde o primeiro commit** já deve estar no projeto:
 
 1. **Formatação** — Python: Black, Node: Prettier.
 1. **Lint** — Python: Ruff, Node: ESLint.
 1. **Type checking** — Python: Mypy/Pyright, Node: TypeScript.
-1. **Build** — quando aplicável, pois se o build quebra, é possível evitar, por exemplo, um deploy.
+1. **Testes** — mesmo que seja um teste mínimo, o ideal é já ter uma estrutura de testes e um teste de exemplo para garantir que a prática de escrever testes seja seguida desde o início.
+1. **Build** — quando aplicável, pois se o build quebra, é possível evitar, por exemplo, um deploy e o ambiente de produção parado.
 
 Por último, mas ainda mais importante:
 
 1. **Formatação automática** — o ideal é que o código seja formatado automaticamente ao salvar o arquivo no editor, para evitar que código não formatado seja commitado.
+1. **Type checking automático e visual** — Python: Pylance, Node: ESLint — o ideal é ter um plugin ou extensão no editor que mostre os erros de tipagem em tempo real, para evitar que o código evolua repleto de erros que poderiam ser evitados.
+1. **Linting automático e visual** — Python: Ruff, Node: ESLint — assim como o type checking, ter um plugin ou extensão no editor que mostre os erros de linting em tempo real é fundamental para manter a qualidade do código desde o início.
 1. **Pre-commit hooks** — para garantir que as verificações de formatação, lint, tipagem e o build rodem antes de cada commit, evitando commits quebrados ou fora de padrão.
+1. **CI** — para garantir que as verificações rodem em um ambiente limpo a cada push, garantindo aplicação do pre-commit, que pode ter sido ignorada localmente. (GitHub Actions, GitLab CI)
 
 ---
 
-## 13. Seus princípios devem ser tua lei
+## 13. Seus princípios devem ser sua lei
 
-Se você acredita que algo precisa ser feito, e, por pressa ou qualquer outro motivo, não o faz, significa que você não entende a real importância disso.
-E se você não entende, significa que você não tem uma base sólida para argumentar a necessidade disso para os outros.
+Se você acredita que algo precisa seguir uma direção, um rumo específico e, por pressa, por pressão de superiores ou qualquer outro motivo, não o faz, significa que você não tem conhecimento da real importância e impacto de seguir uma ou outra direção. E, por isso, a ausência de uma base sólida para argumentar a necessidade disso para os outros.
 
-Fazer entregas ruins e culpar o outro, seja por terem demonstrado pressa ou qualquer outro motivo, mostra **sua falta de responsabilidade**, pois quem é **responsável pela sua entrega é você**. Qualquer argumento contrário a isso são apenas lacunas ainda existentes na formação da maturidade e profissionalismo.
+Fazer entregas ruins e culpar o outro, independente do motivo, mostra **sua falta de compromisso e responsabilidade**, pois quem é **responsável pela sua entrega é você**. Qualquer argumento contrário a isso são apenas lacunas ainda existentes na formação da maturidade, profissionalismo e caráter.
 
 Reflexão: Se você atropelasse uma pessoa na rua porque seu amigo te ligou e pediu para você chegar mais cedo, isso faria dele o culpado?
